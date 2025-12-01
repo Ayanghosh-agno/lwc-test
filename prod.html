@@ -1,0 +1,129 @@
+<template>
+    <div>
+        <!-- When we have quote lines -->
+        <template if:true={hasData}>
+            <div class="slds-m-around_medium">
+
+                <!-- One card per quote line -->
+                <template for:each={quoteLinesView} for:item="line">
+                    <article key={line.id} class="slds-card qas-line-card">
+                        <div class="slds-card__body slds-card__body_inner">
+                            <div class="slds-grid slds-wrap slds-gutters">
+                                <!-- Left: product + line info -->
+                                <div class="slds-col slds-size_1-of-2">
+                                    <p class="qas-product-name">
+                                        {line.productName}
+                                    </p>
+                                    <p class="slds-text-body_small slds-text-color_weak">
+                                        {line.name}
+                                    </p>
+                                </div>
+
+                                <!-- Middle: base qty + allocated summary -->
+                                <div class="slds-col slds-size_1-of-4">
+                                    <lightning-input
+                                        type="number"
+                                        label="Base Quantity"
+                                        min="0"
+                                        value={line.quantity}
+                                        data-qli-id={line.id}
+                                        disabled
+                                        onchange={handleBaseQuantityChange}>
+                                    </lightning-input>
+
+                                    <div class="slds-m-top_x-small">
+                                        <span class={line.allocBadgeClass}>
+                                            {line.allocatedSummary}
+                                        </span>
+                                    </div>
+
+                                    <template if:true={line.showAllocWarning}>
+                                        <p class="qas-warning-text">
+                                            Allocation must equal base quantity.
+                                        </p>
+                                    </template>
+                                </div>
+
+                                <!-- Right: actions -->
+                                <div class="slds-col slds-size_1-of-4 slds-text-align_right">
+                                    <lightning-button
+                                        variant="brand-outline"
+                                        label="Add Account"
+                                        icon-name="utility:add"
+                                        data-qli-id={line.id}
+                                        onclick={handleAddAccount}>
+                                    </lightning-button>
+                                </div>
+                            </div>
+
+                            <!-- Allocations list -->
+                            <template if:true={line.hasAllocations}>
+                                <div class="slds-m-top_medium qas-alloc-container">
+                                    <template for:each={line.allocations} for:item="alloc">
+                                        <div key={alloc.id} class="slds-grid slds-gutters slds-m-bottom_small qas-alloc-row">
+                                            <div class="slds-col slds-size_1-of-3">
+                                                <lightning-combobox
+                                                    label="Account"
+                                                    value={alloc.accountId}
+                                                    options={accountOptions}
+                                                    placeholder="Select Account"
+                                                    data-qli-id={line.id}
+                                                    data-alloc-id={alloc.id}
+                                                    onchange={handleAccountChange}>
+                                                </lightning-combobox>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-3">
+                                                <lightning-input
+                                                    type="number"
+                                                    label="Quantity"
+                                                    min="0"
+                                                    step="1"
+                                                    value={alloc.quantity}
+                                                    data-qli-id={line.id}
+                                                    data-alloc-id={alloc.id}
+                                                    onchange={handleQuantityChange}>
+                                                </lightning-input>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-3 slds-text-align_right slds-m-top_large">
+                                                <lightning-button-icon
+                                                    icon-name="utility:delete"
+                                                    alternative-text="Remove"
+                                                    title="Remove"
+                                                    data-qli-id={line.id}
+                                                    data-alloc-id={alloc.id}
+                                                    onclick={handleRemoveAllocation}>
+                                                </lightning-button-icon>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+
+                            <!-- No allocations text -->
+                            <template if:true={line.noAllocations}>
+                                <p class="slds-m-top_small slds-text-body_small slds-text-color_weak">
+                                    No allocations added yet. Click "Add Account" to start splitting.
+                                </p>
+                            </template>
+                        </div>
+                    </article>
+                </template>
+
+                <div class="slds-m-top_large slds-text-align_right">
+                    <lightning-button
+                        variant="brand"
+                        label="Save (Dummy)"
+                        onclick={handleSave}>
+                    </lightning-button>
+                </div>
+            </div>
+        </template>
+
+        <!-- When there are no quote lines -->
+        <template if:true={hasNoData}>
+            <div class="slds-m-around_medium">
+                <p>No dummy quote lines found.</p>
+            </div>
+        </template>
+    </div>
+</template>
