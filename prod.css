@@ -1,0 +1,50 @@
+.qas-line-card {
+    margin-bottom: 1rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.qas-product-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.qas-alloc-container {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 0.75rem;
+}
+
+.qas-alloc-row {
+    padding: 0.25rem 0;
+    background-color: #f9fafb;
+    border-radius: 0.5rem;
+}
+
+.qas-alloc-badge {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.qas-alloc-badge-ok {
+    background-color: #e3fcef;
+    color: #03543f;
+}
+
+.qas-alloc-badge-warning {
+    background-color: #fff7e6;
+    color: #92400e;
+}
+
+.qas-alloc-badge-empty {
+    background-color: #e5e7eb;
+    color: #374151;
+}
+
+.qas-warning-text {
+    font-size: 0.7rem;
+    color: #b91c1c;
+    margin-top: 0.25rem;
+}
